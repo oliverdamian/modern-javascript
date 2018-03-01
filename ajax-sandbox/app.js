@@ -6,30 +6,30 @@ const posts = [
 
 // SYNCHRONOUS (NO CALLBACK)
 
-// function createPost() {
-//   setTimeout(function() {
-//     posts.push(post);
-//   }, 2000);
-// }
+function createPost() {
+  setTimeout(function() {
+    posts.push(post);
+  }, 2000);
+}
 
-// function getPosts() {
-//   setTimeout(function() {
-//     let output = '';
+function getPosts() {
+  setTimeout(function() {
+    let output = '';
 
-//     posts.forEach(function(post) {
-//       output += `<li>${post.title}</li>`;
-//     });
+    posts.forEach(function(post) {
+      output += `<li>${post.title}</li>`;
+    });
 
-//     document.body.innerHTML = output;
-//   }, 1000);
-// }
+    document.body.innerHTML = output;
+  }, 1000);
+}
 
-// createPost({
-//   title: 'Post Four',
-//   body: 'This is post four.'
-// });
+createPost({
+  title: 'Post Four',
+  body: 'This is post four.'
+});
 
-// getPosts();
+getPosts(); // Issue: getPosts() is called before create post (1 second before).
 
 
 // ASYNCHRONOUS (WITH CALLBACK)
@@ -57,3 +57,44 @@ createPost({
   title: 'Post Four',
   body: 'This is post four.'
 }, getPosts);
+
+
+// ASYNCHRONOUS (WITH PROMISES)
+
+function createPost(post) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      const err = true;
+      posts.push(post);
+
+      if(!err) {
+        resolve();
+      }
+      else {
+        reject('Error: Something went wrong.');
+      }
+
+    }, 2000);
+  });
+}
+
+function getPosts() {
+  setTimeout(function() {
+    let output = '';
+
+    posts.forEach(function(post) {
+      output += `<li>${post.title}</li>`;
+    });
+
+    document.body.innerHTML = output;
+  }, 1000);
+}
+
+createPost({
+  title: 'Post Four',
+  body: 'This is post four.'
+})
+.then(getPosts)
+.catch(function(err) {
+  console.log(err);
+});
