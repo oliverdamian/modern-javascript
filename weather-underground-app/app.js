@@ -4,6 +4,9 @@ const weatherLocation = storage.getLocationData();
 const w = new Weather(weatherLocation.city, weatherLocation.state);
 const ui = new UI();
 
+const card = document.getElementById('card');
+card.style.display = 'none';
+
 document.addEventListener('DOMContentLoaded', getWeather);
 
 document.getElementById('w-change-btn').addEventListener('click', () => {
@@ -19,8 +22,9 @@ document.getElementById('w-change-btn').addEventListener('click', () => {
 
 function getWeather() {
   w.getWeather()
-  .then(results => {
-    ui.paint(results);
-  })
-  .catch(err => console.log(err));
+    .then(results => {
+      ui.paint(results);
+      card.style.display = 'block';
+    })
+    .catch(err => console.log(err));
 }
