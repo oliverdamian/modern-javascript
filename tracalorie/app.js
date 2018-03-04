@@ -322,13 +322,13 @@ const UICtrl = (function() {
 })();
 
 const App = (function(StorageCtrl, ItemCtrl, UICtrl) {
-
   const loadEventListeners = function() {
     const UISelectors = UICtrl.getSelectors();
 
     document.addEventListener('keypress', function(e) {
       if(e.keyCode === 13 || e.which === 13) {
         e.preventDefault();
+        
         return false;
       }
     });
@@ -429,7 +429,8 @@ const App = (function(StorageCtrl, ItemCtrl, UICtrl) {
 
     if(items.length === 0) {
       UICtrl.hideList()
-    } else {
+    }
+    else {
       UICtrl.populateItemList(items);
       UICtrl.showTotalCalories(totalCalories);
     }
